@@ -1,0 +1,8 @@
+#!/bin/sh
+
+leftwm-command "SendWorkspaceToTag $1 $2"
+# This is kind annoying but unless it the
+# leftwm-state don't change the state of the active tag
+sleep 0.01
+output=$(leftwm-state -w 0 -t "$SCRIPTPATH/polybar.liquid" -q)
+echo $output > $STATEFILE

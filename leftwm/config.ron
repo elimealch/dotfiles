@@ -1,0 +1,111 @@
+#![enable(implicit_some)]
+#![enable(unwrap_newtypes)]
+(
+    // Modkey
+    modkey: "Mod4",
+    // Mousekey
+    mousekey: "Mod1",
+
+    // Tile dragging
+    disable_tile_drag: true,
+
+    // Focus behaviour
+    focus_behaviour: ClickTo,
+    focus_new_window: true,
+    //create_follows_focus: true,
+    //single_window_border: true,
+    // I'd like that this could be set to true but when change the 
+    // tag and the mouse ends out of a window any window will be focused
+    // and I need to move the mouse to a window
+    //sloppy_mouse_follows_focus: true, 
+
+    // Window Creation and Focus
+    //disable_cursor_reposition_on_resize: false,
+    reposition_cursor_on_resize: true,
+    auto_derive_workspaces: true,
+
+    // Layouts
+    layouts: [
+        "Grid",
+        "MainAndVertStack",
+        "CenterMain",
+        "MainAndDeck",
+        "Monocle",
+    ],
+    layout_definitions: [
+        (name: "EvenHorizontal", flip: None, rotate: North, reserve: None, columns: (flip: None, rotate: North, main: None, stack: (flip: None, rotate: North, split: Vertical), second_stack: None)),
+        (name: "EvenVertical", flip: None, rotate: North, reserve: None, columns: (flip: None, rotate: North, main: None, stack: (flip: None, rotate: North, split: Horizontal), second_stack: None)),
+        (name: "Monocle", flip: None, rotate: North, reserve: None, columns: (flip: None, rotate: North, main: None, stack: (flip: None, rotate: North, split: None), second_stack: None)),
+        (name: "Grid", flip: None, rotate: North, reserve: None, columns: (flip: None, rotate: North, main: None, stack: (flip: None, rotate: North, split: Grid), second_stack: None)),
+        (name: "MainAndVertStack", flip: None, rotate: North, reserve: None, columns: (flip: None, rotate: North, main: (count: 1, size: 0.5, flip: None, rotate: North, split: Vertical), stack: (flip: None, rotate: North, split: Horizontal), second_stack: None)),
+        (name: "MainAndHorizontalStack", flip: None, rotate: North, reserve: None, columns: (flip: None, rotate: North, main: (count: 1, size: 0.5, flip: None, rotate: North, split: Vertical), stack: (flip: None, rotate: North, split: Vertical), second_stack: None)),
+        (name: "RightMainAndVertStack", flip: None, rotate: North, reserve: None, columns: (flip: None, rotate: South, main: (count: 1, size: 0.5, flip: None, rotate: North, split: Vertical), stack: (flip: None, rotate: North, split: Horizontal), second_stack: None)),
+        (name: "Fibonacci", flip: None, rotate: North, reserve: None, columns: (flip: None, rotate: North, main: (count: 1, size: 0.5, flip: None, rotate: North, split: Vertical), stack: (flip: None, rotate: North, split: Fibonacci), second_stack: None)),
+        (name: "Dwindle", flip: None, rotate: North, reserve: None, columns: (flip: None, rotate: North, main: (count: 1, size: 0.5, flip: None, rotate: North, split: Vertical), stack: (flip: None, rotate: North, split: Dwindle), second_stack: None)),
+        (name: "MainAndDeck", flip: None, rotate: North, reserve: None, columns: (flip: None, rotate: North, main: (count: 1, size: 0.5, flip: None, rotate: North, split: None), stack: (flip: None, rotate: North, split: None), second_stack: None)),
+        (name: "CenterMain", flip: None, rotate: North, reserve: None, columns: (flip: None, rotate: North, main: (count: 1, size: 0.5, flip: None, rotate: North, split: Vertical), stack: (flip: None, rotate: North, split: None), second_stack: (flip: None, rotate: North, split: Horizontal))),
+        (name: "CenterMainBalanced", flip: None, rotate: North, reserve: None, columns: (flip: None, rotate: North, main: (count: 1, size: 0.5, flip: None, rotate: North, split: Vertical), stack: (flip: None, rotate: North, split: Dwindle), second_stack: (flip: None, rotate: North, split: Dwindle))),
+        (name: "CenterMainFluid", flip: None, rotate: North, reserve: Reserve, columns: (flip: None, rotate: North, main: (count: 1, size: 0.5, flip: None, rotate: North, split: Vertical), stack: (flip: None, rotate: North, split: None), second_stack: (flip: None, rotate: North, split: Horizontal))),
+    ],
+
+    // Layout mode
+    layout_mode: Tag, // Can be Workspace or Tag
+
+    // Tags
+    tags: ["1", "2", "3", "4", "5"],
+    //tags: ["⟡", "⟡", "⟡", "⟡", "⟡"],
+
+    // Window size
+    default_width: 800,
+    default_height: 600,
+
+    // Max Window Width
+    // max_window_width: 0.5,
+
+    keybind: [
+        // Execute apps
+        (command: Execute, value: "brave-browser", modifier: ["modkey"], key: "b"),
+        //(command: Execute, value: "kitty", modifier: ["modkey"], key: "Return"),
+        (command: Execute, value: "alacritty", modifier: ["modkey"], key: "Return"),
+        (command: Execute, value: "rofi -modi drun -show drun -theme ~/.config/leftwm/themes/current/config/rofi.rasi", modifier: ["modkey"], key: "s"),
+        
+        // Close windows
+        (command: CloseWindow, modifier: ["modkey"], key: "q"),
+        
+        // LeftWM control
+        (command: HardReload, modifier: ["modkey", "Shift"], key: "h"),
+        (command: SoftReload, modifier: ["modkey", "Shift"], key: "s"),
+        (command: Execute, value: "loginctl kill-session $XDG_SESSION_ID", modifier: ["modkey", "Shift"], key: "x"),
+
+        // Layouts
+        (command: NextLayout, modifier: ["modkey"], key: "space"),
+        (command: PreviousLayout, modifier: ["modkey", "Shift"], key: "space"),
+
+        // Tags
+        (command: GotoTag, value: "1", modifier: ["modkey"], key: "1"),
+        (command: GotoTag, value: "2", modifier: ["modkey"], key: "2"),
+        (command: GotoTag, value: "3", modifier: ["modkey"], key: "3"),
+        (command: GotoTag, value: "4", modifier: ["modkey"], key: "4"),
+        (command: GotoTag, value: "5", modifier: ["modkey"], key: "5"),
+        //(command: GotoTag, value: "6", modifier: ["modkey"], key: "6"),
+        //(command: GotoTag, value: "7", modifier: ["modkey"], key: "7"),
+        //(command: GotoTag, value: "8", modifier: ["modkey"], key: "8"),
+        //(command: GotoTag, value: "9", modifier: ["modkey"], key: "9"),
+        (command: FocusNextTag, modifier: ["modkey", "Shift"], key: "k"),
+        (command: FocusNextTag, value: "goto_used", modifier: ["modkey", "Control"], key: "k"),
+        (command: FocusNextTag, value: "goto_empty", modifier: ["modkey", "Alt"], key: "k"),
+        (command: FocusPreviousTag, modifier: ["modkey", "Shift"], key: "j"),
+        (command: FocusPreviousTag, value: "goto_used", modifier: ["modkey", "Control"], key: "j"),
+        (command: FocusPreviousTag, value: "goto_empty", modifier: ["modkey", "Alt"], key: "j"),
+
+        (command: ReturnToLastTag, modifier: ["modkey", "Shift"], key: "p"),
+        (command: FocusNextTag, modifier: ["modkey"], key: "n"),
+        (command: FocusPreviousTag, modifier: ["modkey"], key: "p"),
+
+        // Windows
+        (command: ToggleFullScreen, modifier: ["modkey"], key: "f"),
+        (command: FocusWindowUp, modifier: ["modkey"], key: "k"),
+        (command: FocusWindowDown, modifier: ["modkey"], key: "j"),
+        //(command: FocusWindowTop, value: "true", modifier: ["modkey"], key: "l"),
+    ],
+)

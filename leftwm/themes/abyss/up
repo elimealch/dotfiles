@@ -1,0 +1,79 @@
+#!/bin/sh
+
+export SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+
+# Path to config directory
+config_dir="$SCRIPTPATH/config"
+# Path to down script for copy it into the temporary directory
+down_script="$SCRIPTPATH/down"
+# Theme path
+theme="$SCRIPTPATH/theme.ron"
+
+# Spawn a function once
+# This function will check if the given program is already running
+spawn_once() {
+    # Define the name of the program you want to run
+    program=$1
+    # Define the options for run the program
+    options=$2
+
+    # Check if the program isn't running
+    if ! pgrep -x "$program" > /dev/null; then
+        # Creates the command to run
+        cmd="$program $options"
+
+        # Run the command
+        $cmd &
+    fi
+}
+
+# Check if the temporary symlink to the down script already exists
+if [ -f "/tmp/leftwm-theme-down" ]; then
+    /tmp/leftwm-theme-down
+    rm /tmp/leftwm-theme-down
+fi
+# Creates the symlink to down script
+ln -s "$down_script" /tmp/leftwm-theme-down
+
+# Load theme
+leftwm-command "LoadTheme $theme"
+
+# Set background
+if [ -x "$(command -v feh)" ]; then
+    if [ -f "$HOME/.fehbg"]; then
+        $HOME/.fehbg
+    else
+        $config_dir/fehbg
+    fi
+fi
+
+## Running programs on startup ##
+# Compositor
+spawn_once "picom" "--experimental-backends --config $config_dir/picom.conf"
+# Authenticator agent
+spawm_once "/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1"
+# screen color temperature control
+#spawn_once "redshift-gtk"
+#spawn_once "gammastep" "-l 31.4:64.1 -t 5700:3600 -g 0.8 -m randr -v"
+# Widget bar
+state=$(echo 'mkstemp(template)' | m4 -D template="${TMPDIR:-/tmp}/leftwm_state.XXXXXX")
+leftwm-state -w 0 -t $SCRIPTPATH/polybar.liquid -q > $state
+index=0
+leftwm-state -q -n -t $SCRIPTPATH/sizes.liquid | sed -r '/^\s*$/d' | while read -r width x y
+do
+    barleft="left$index"
+    barcenter="center$index"
+    barright="right$index"
+
+    width=$((width / 5))
+    bar_width2=$((width + (width / 2)))
+    offset_x=9
+    monitor="$(polybar -m | awk -v i="$((index + 1))" 'NR == i { print }' | sed s/:.*// | tr -d '\n')"
+    monitor=$monitor offset_x=9 offset_y=5 width=$bar_width2 polybar -c $SCRIPTPATH/config/polybar.conf $barleft &> /dev/null &
+    monitor=$monitor offset_x=$((width * 2)) offset_y=5 width=$width STATEFILE=$state polybar -c $SCRIPTPATH/config/polybar.conf $barcenter &> /dev/null &
+    monitor=$monitor offset_x=$((((width * 3) + (bar_width2 - width)) - 9)) offset_y=5 width=$bar_width2 polybar -c $SCRIPTPATH/config/polybar.conf $barright &> /dev/null &
+
+    index="$((index + 1))"
+done
+## Runnning programs on startup ##
+

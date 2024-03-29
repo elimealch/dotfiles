@@ -1,0 +1,231 @@
+/* Global properties */
+* {
+    font:                        "Iosevka Bold 12";
+    spacing:                     2;
+
+    red:                         #dc322f;
+    blue:                        #000000;//#370554;//#1e8bd2;
+    lightbg:                     #380554e6;//#64519e;
+    lightfg:                     #cd23b9;//#5f3c75;
+
+    background-color:            transparent;
+    background:                  #1d0042e6;//#795a9c;//#49365e;//#1c1326;//#00555e;
+    normal-background:           @background;
+    //active-background:           @background;
+    //urgent-background:           @background;
+    selected-normal-background:  @lightbg;
+    //selected-active-background:  @blue;
+    //selected-urgent-background:  @red;
+    alternate-normal-background: @background;//@lightbg;
+    //alternate-active-background: @lightbg;
+    //alternate-urgent-background: @lightbg;
+
+    foreground:                  #f8dcd9;//#9660EF;//#CD23B9;//#d60250;
+    normal-foreground:           @foreground;
+    //active-foreground:           @blue;
+    //urgent-foreground:           @red;
+    selected-normal-foreground:  @lightfg;
+    selected-active-foreground:  @background;
+    //selected-urgent-foreground:  @background;
+    alternate-normal-foreground: @foreground;
+    //alternate-active-foreground: @blue;
+    //alternate-urgent-foreground: @red;
+
+    border-color:                @foreground;
+    //border-radius:               10;
+    separatorcolor:              @foreground;
+}
+
+window {
+    padding:          5;
+    background-color: @background;
+    border:           2;
+    border-radius:    10;
+    border-color:     @lightfg;
+    
+    location:         center;
+    y-offset:         50px;
+}
+
+mainbox {
+    padding: 7;
+    border:  0;
+}
+
+inputbar {
+    padding:          8px;
+    border:           2;
+    border-radius:    10;
+    border-color:     #5771C2;//#4CC5FF;//#483B96;//#A000AA;
+    background-color: #34145D;
+    //spacing:          0px;
+
+    text-color:       @normal-foreground;
+
+    children:         [ prompt,textbox-prompt-colon,entry,num-filtered-rows,textbox-num-sep,num-rows,case-indicator ];
+}
+
+case-indicator {
+    padding: 0px;
+    spacing:    0;
+    text-color: @normal-foreground;
+}
+
+prompt {
+    spacing:    0;
+    text-color: @normal-foreground;
+}
+
+entry {
+    padding:           0px;
+    border:            0px;
+    cursor:            text;
+
+    spacing:           0;
+
+    vertical-align:    0.5;
+    text-color:        @normal-foreground;
+    placeholder:       "Type to Search 🔍";
+    placeholder-color: #9284b8;//Gray;
+}
+
+num-rows {
+    expand:     false;
+    text-color: Gray;
+}
+
+num-filtered-rows {
+    expand:     false;
+    text-color: Gray;
+}
+
+listview {
+    padding:      2px 0px 0px;
+    margin:       12px 0px 0px;
+    border:       0px;
+    //border:       2px solid 0px 0px;
+    border-color: @separatorcolor;
+
+    fixed-height: 0;
+    scrollbar:    true;
+    spacing:      4px;
+    lines:        8;
+}
+
+scrollbar {
+    padding:       0;
+    border:        2;
+    border-radius: 10;
+
+    width:         4px;
+    handle-width:  5px;
+    handle-color:  @normal-foreground;
+}
+
+element {
+    padding:       10px;
+    border:        0;
+    border-radius: 10;
+    background-color: transparent;
+    cursor:        pointer;
+
+    spacing:       5px;
+}
+
+element-icon {
+    background-color: transparent;
+    cursor:           inherit;
+
+    text-color:       inherit;
+    size:             20px;
+}
+
+element-text {
+    background-color: transparent;
+    cursor:           inherit;
+
+    text-color:       inherit;
+    highlight:        inherit;
+}
+
+element normal.normal {
+    //background-color: @normal-background;
+    //background-color: transparent;
+    background: @normal-background;
+    text-color:       @normal-foreground;
+}
+
+//element normal.active {
+//    background-color: @active-background;
+//    text-color:       @active-foreground;
+//}
+//element normal.urgent {
+//    background-color: @urgent-background;
+//    text-color:       @urgent-foreground;
+//}
+element selected.normal {
+    background-color: @selected-normal-background;
+    text-color:       @selected-normal-foreground;
+}
+//element selected.active {
+//    background-color: @selected-active-background;
+//    text-color:       @selected-active-foreground;
+//}
+//element selected.urgent {
+//    background-color: @selected-urgent-background;
+//    text-color:       @selected-urgent-foreground;
+//}
+element alternate.normal {
+    background-color: transparent;
+    //background-color: @alternate-normal-background;
+    background: @alternate-normal-background;
+    text-color:       @alternate-normal-foreground;
+}
+//element alternate.active {
+//    background-color: @alternate-active-background;
+//    text-color:       @alternate-active-foreground;
+//}
+//element alternate.urgent {
+//    background-color: @alternate-urgent-background;
+//    text-color:       @alternate-urgent-foreground;
+//}
+
+button {
+    cursor:     pointer;
+    spacing:    0;
+    text-color: @normal-foreground;
+}
+
+button selected {
+    background-color: @selected-normal-background;
+    text-color:       @selected-normal-foreground;
+}
+
+message {
+    padding:      1px;
+    border-color: @separatorcolor;
+    border:       2px solid 0px 0px;
+}
+
+textbox {
+    text-color: @foreground;
+}
+
+textbox-num-sep {
+    expand:     false;
+    str:        "/";
+    text-color: Gray;
+}
+
+textbox-prompt-colon {
+    margin:     0px 0px 0px 0px;
+    expand:     false;
+    str:        ": ";
+    text-color: inherit;
+}
+
+sidebar {
+    border-color: @separatorcolor;
+    border:       2px solid 0px 0px;
+}
+
